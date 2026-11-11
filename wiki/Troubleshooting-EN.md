@@ -143,6 +143,40 @@ Select-String -Path configs\worldserver.conf -Pattern "DatabaseInfo"
 
 ## Client
 
+### Realm shown as offline while the server is running
+
+Almost always a **start order** problem, not networking.
+
+On startup `authserver` runs:
+
+```sql
+UPDATE realmlist SET flag = flag | 2;   -- REALM_FLAG_OFFLINE for ALL realms
+```
+
+and `worldserver` clears that bit for its own realm when it starts. If the
+worldserver comes up before the authserver, the authserver immediately marks the
+realm offline again — and that is what the client displays.
+
+Check:
+
+```sql
+SELECT id, name, flag, flag & 2 AS offline_bit FROM echo_auth.realmlist;
+```
+
+`offline_bit` must be `0`. If it is `2`, the servers were started in the wrong order.
+
+**Correct order:** `authserver` first, `worldserver` a few seconds later.
+
+Quick fix without a restart:
+
+```sql
+UPDATE echo_auth.realmlist SET flag = flag & ~2 WHERE id = 1;
+```
+
+Check the ports separately: `Test-NetConnection 127.0.0.1 -Port 8085` and `-Port 3724`.
+The client caches the realm list for the session — go back to the realm list
+again after the change (a full client restart is more reliable).
+
 ### Title is not displayed
 
 **Possible causes:**
@@ -161,9 +195,18 @@ If that does not help, rebuild `patch-x.mpq` with an ID in the 1–47 range.
 
 ### Mount cannot be summoned
 
-1. Spell 70010 in the client: run `verify_mpq.py` — expect `70010 present: True`.
-2. Spell on the server: `SELECT * FROM echo_world.spell_dbc WHERE ID=70010;`
-3. Item binding: `SELECT spellid_1 FROM echo_world.item_template WHERE entry=70003;` — must be `70010`.
+1. Spell on the server: `SELECT Effect_1, EffectAura_1, EffectMiscValue_1 FROM echo_world.spell_dbc WHERE ID=70010;`
+   Expect `6 / 78 / 29767`. If `Effect_1` is `76`
+   (`SPELL_EFFECT_SUMMON_OBJECT_WILD`), the spell creates a GameObject instead of
+   mounting the player — apply `0023_fix_mount_spell.sql`.
+2. Spell in the client: `verify_mpq.py` must unpack a `Spell.dbc` identical to the
+   source; record 70010 in `client_dbc_pt/Spell.dbc` must carry the same
+   `Effect_1`/`EffectAura_1`. A server/client mismatch means the mount will not work.
+3. The mount creature exists:
+   `SELECT t.entry, m.CreatureDisplayID FROM echo_world.creature_template t JOIN creature_template_model m ON m.CreatureID=t.entry WHERE t.entry=29767;`
+4. Item binding: `SELECT class, subclass, spellid_1, spellcategory_1 FROM echo_world.item_template WHERE entry=70003;`
+   Must be `15 / 5 / 70010 / 330`.
+5. Clear `Cache/WDB` — the client may have cached the old spell.
 
 ### Map 5000: disconnect or "map not found"
 
