@@ -147,3 +147,54 @@ Spell: 70010 present: True
 
 Unpacking verification proves container integrity, not in-game behaviour. Whether
 the client accepts title 178 and renders the mount is only proven by logging in.
+
+## Building patches: mpqcli on StormLib
+
+Patches are built with our own CLI over native StormLib — `tools/mpq/mpqcli.cpp`. The in-house Python builder is retired: it wrote archives whose contents read back wrong (`CharTitles.dbc` came out empty), and a ctypes wrapper of the same StormLib reliably corrupted the second call in a row (`SFileAddFileEx` overwrote the first file).
+
+**Build the CLI** (once, needs Visual Studio Build Tools):
+
+```
+tools\mpq\build-mpqcli.cmd
+```
+
+Or through CMake: `cmake -S tools/mpq -B tools/mpq/build -A x64` + `cmake --build tools/mpq/build --config Release`. StormLib sources are expected at `E:\tools\StormLib`.
+
+**Build patch-x**:
+
+```powershell
+$exe = "tools\mpq\build\Release\mpqcli.exe"
+& $exe create patch-x.mpq 64
+& $exe add patch-x.mpq CharTitles.dbc "DBFilesClient\CharTitles.dbc"
+& $exe add patch-x.mpq Spell.dbc      "DBFilesClient\Spell.dbc"
+& $exe list patch-x.mpq
+```
+
+**patch-Z** is the same for `DBFilesClient\Map.dbc`, `World\Maps\CustomMaps\CustomMaps.wdt` and ten `.adt` tiles.
+
+### The backslash rule
+
+Names inside the archive must use **backslashes**: `DBFilesClient\Spell.dbc`.
+
+- StormLib and the client normalise `/` to `\` and read the archive either way;
+- `mapextractor` and anything built on libmpq do **not** find files stored with forward slashes: the archive opens, extraction yields nothing. That is why map 5000 extracted without tiles.
+
+### Verifying a build
+
+"Opens fine" is not enough — verify the contents:
+
+```powershell
+& $exe size patch-x.mpq "DBFilesClient\CharTitles.dbc"   # 28053
+& $exe size patch-x.mpq "DBFilesClient\Spell.dbc"        # 49114468
+& $exe read patch-x.mpq "DBFilesClient\Spell.dbc" out.dbc
+# then compare SHA256 with the source file
+```
+
+### Extracting server map data
+
+1. Build an archive with `Map.dbc` and the tiles (backslashes) and put it into `Data` as `patch-5.MPQ` — the extractor only reads names from its hardcoded list (`common.MPQ` … `patch-5.MPQ`).
+2. `map_extractor.exe -i <client> -o <output> -e 1`.
+3. Copy `maps\5000*.map` into the server build's `data\maps`.
+4. Delete `patch-5.MPQ` from the client.
+
+Map 5000 is appended to the extractor's map list in `System.cpp`: the stock `Map.dbc` shipped in the archives does not contain it.
