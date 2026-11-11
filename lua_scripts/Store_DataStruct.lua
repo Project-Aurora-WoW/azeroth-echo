@@ -167,7 +167,17 @@ function CreatureDisplays.Load()
 		return
 	end
 
-	local Query = WorldDBQuery("SELECT entry, `name`, subname, IconName, type_flags, `type`, family, `rank`, KillCredit1, KillCredit2, modelId1, modelId2, modelId3, modelId4, HealthModifier, ManaModifier, RacialLeader, MovementType FROM creature_template WHERE entry IN ("..tmp..");")
+	-- В этой схеме ядра моделей в creature_template нет: они лежат в
+	-- creature_template_model (CreatureID, Idx, CreatureDisplayID).
+	-- modelId1..4 заменены на четыре подзапроса по Idx 0..3 — порядок и число
+	-- колонок сохранены, чтобы не менять индексы в разборе результата ниже.
+	local Query = WorldDBQuery("SELECT ct.entry, ct.`name`, ct.subname, ct.IconName, ct.type_flags, ct.`type`, ct.family, ct.`rank`, ct.KillCredit1, ct.KillCredit2, "
+		.. "IFNULL((SELECT m.CreatureDisplayID FROM creature_template_model m WHERE m.CreatureID = ct.entry AND m.Idx = 0), 0), "
+		.. "IFNULL((SELECT m.CreatureDisplayID FROM creature_template_model m WHERE m.CreatureID = ct.entry AND m.Idx = 1), 0), "
+		.. "IFNULL((SELECT m.CreatureDisplayID FROM creature_template_model m WHERE m.CreatureID = ct.entry AND m.Idx = 2), 0), "
+		.. "IFNULL((SELECT m.CreatureDisplayID FROM creature_template_model m WHERE m.CreatureID = ct.entry AND m.Idx = 3), 0), "
+		.. "ct.HealthModifier, ct.ManaModifier, ct.RacialLeader, ct.MovementType "
+		.. "FROM creature_template ct WHERE ct.entry IN ("..tmp..");")
 	if(Query) then
 		repeat
 		table.insert(CreatureDisplays.Cache,
