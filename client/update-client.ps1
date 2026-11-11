@@ -1,4 +1,4 @@
-# ============================================================
+﻿# ============================================================
 # update-client.ps1 — Лаунчер-минимум реалма «Эхо Пустоты»
 # Подход Waloria (docs/client-patch.md ч. 4a):
 #   сверка manifest.json -> докачка отличий -> очистка Cache ->
@@ -68,7 +68,9 @@ foreach ($file in $manifest.files) {
     }
 
     if ($needDownload) {
-        $remoteUrl = "$PatchUrl/$($file.path)"
+        # Если в манифесте задан явный адрес (например, GitHub Release) — берём его,
+        # иначе строим путь относительно веб-каталога патчей.
+        $remoteUrl = if ($file.url) { $file.url } else { "$PatchUrl/$($file.path)" }
         $destDir = Split-Path $destPath -Parent
         if (-not (Test-Path $destDir)) {
             New-Item -ItemType Directory -Path $destDir -Force | Out-Null

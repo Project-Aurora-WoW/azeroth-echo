@@ -1,6 +1,6 @@
 {
   "realm": "Эхо Пустоты",
-  "version": 4,
+  "version": 5,
   "realmlist": "127.0.0.1",
   "files": [
     {
@@ -9,7 +9,8 @@
       "sha256": "ad4377dd90f13fc9dd12ba7e8dbcd5eecf078a48c679e812d669edc7c4654f53",
       "size": 4120622,
       "required": true,
-      "description": "DBC-патч: титул «Хранитель Эха» (ID 48), маунт «Бездна-Пегас» (спелл 70010). Собрать по docs/client-patch.md ч. 1–4 (база: waloriaold Patch-T.MPQ.rar). НЕ включать Map.dbc — его полностью перекрывает patch-Z"
+      "description": "DBC-патч: титул «Хранитель Эха» (ID 178), маунт «Бездна-Пегас» (спелл 70010). База — Patch-T. Map.dbc НЕ включён: его полностью перекрывает patch-Z",
+      "url": "https://github.com/maxorlov59rus/azeroth-echo/releases/download/v1.0.0/patch-x.mpq"
     },
     {
       "path": "patch-Z.mpq",
@@ -17,7 +18,8 @@
       "sha256": "26310a6bb35c3cc5404f3b000bdeeb7cfe7778f722714083de545045d3dcd998",
       "size": 2676286,
       "required": true,
-      "description": "Кастомные карты (карта 5000): Остров Морза, Долина Предательства (референс RStijn/custom-maps, 2015). Берётся готовым из репозитория custom-maps, пересборка не требуется. Требуется для телепортов Портального Стража и работы карты 5000"
+      "description": "Карта 5000 «CustomMaps»: Остров Морза, Долина Предательства. Пересобран из распакованных .adt/.wdt/Map.dbc, так как оригинальный patch-Z.MPQ повреждён",
+      "url": "https://github.com/maxorlov59rus/azeroth-echo/releases/download/v1.0.0/patch-Z.mpq"
     },
     {
       "path": "addons/AzerothEcho.zip",
@@ -25,12 +27,14 @@
       "sha256": "0e0630725312014bea244c2578d652ba6503b96a1ba49710e3b6c1f548e83884",
       "size": 9217,
       "required": true,
-      "description": "Клиентский аддон реалма (addons/AzerothEcho из репозитория, zip без вложенного каталога)"
+      "description": "Клиентский аддон реалма (addons/AzerothEcho из репозитория, zip без вложенного каталога)",
+      "url": "https://github.com/maxorlov59rus/azeroth-echo/releases/download/v1.0.0/AzerothEcho.zip"
     }
   ],
   "cacheDirs": [
     "Cache",
     "Cache/WDB"
   ],
-  "notes": "После сборки патчей заполнить sha256 (PowerShell: Get-FileHash -Algorithm SHA256 <файл>) и size (байты). Версию поднимать при каждом изменении состава файлов. Порядок загрузки MPQ по имени: patch-3 → ... → patch-x → patch-Z (Z последняя — её Map.dbc перекрывает всё)."
+  "notes": "После сборки патчей заполнить sha256 (PowerShell: Get-FileHash -Algorithm SHA256 <файл>) и size (байты). Версию поднимать при каждом изменении состава файлов. Порядок загрузки MPQ по имени: patch-3 → ... → patch-x → patch-Z (Z последняя — её Map.dbc перекрывает всё).",
+  "release": "v1.0.0"
 }
