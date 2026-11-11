@@ -46,6 +46,30 @@ function Wait-Port([int]$Port, [int]$TimeoutSec, [string]$What) {
     return $false
 }
 
+function Start-Utf8Process([string]$ExeName) {
+    # Сервер печатает в консоль UTF-8, а стандартная консоль Windows в русской
+    # локали работает в cp866 — кириллица превращается в «╨╖╨░╨│╤Г╨╢╨╡╨╜».
+    # Запускаем через cmd, который сначала переключает кодовую страницу на 65001.
+    $exe = Join-Path $ServerDir $ExeName
+    if (-not (Test-Path $exe)) {
+        Write-Err "не найден $exe"
+        return $null
+    }
+    $null = Start-Process -FilePath "cmd.exe" `
+        -ArgumentList "/c", "chcp 65001 >nul & `"$ExeName`"" `
+        -WorkingDirectory $ServerDir -PassThru
+    # cmd стартует сервер дочерним процессом — ждём именно его
+    $baseName = [IO.Path]::GetFileNameWithoutExtension($ExeName)
+    $deadline = (Get-Date).AddSeconds(20)
+    while ((Get-Date) -lt $deadline) {
+        Start-Sleep -Milliseconds 500
+        $proc = Get-Process $baseName -ErrorAction SilentlyContinue | Select-Object -First 1
+        if ($proc) { return $proc }
+    }
+    Write-Err "$ExeName не появился в списке процессов"
+    return $null
+}
+
 if (-not (Test-Path (Join-Path $ServerDir "worldserver.exe"))) {
     Write-Err "Не найден $ServerDir\worldserver.exe"; exit 1
 }
@@ -70,14 +94,16 @@ if ($running) {
 }
 
 Write-Step "1/2 authserver (сначала — он ставит флаг офлайна всем реалмам)"
-$auth = Start-Process -FilePath (Join-Path $ServerDir "authserver.exe") -WorkingDirectory $ServerDir -PassThru
+$auth = Start-Utf8Process "authserver.exe"
+if (-not $auth) { Write-Err "authserver не запустился"; exit 2 }
 if (-not (Wait-Port 3724 60 "authserver")) { exit 2 }
 Write-Ok "authserver pid=$($auth.Id) слушает 3724"
 
 Start-Sleep -Seconds 2
 
 Write-Step "2/2 worldserver (снимает флаг офлайна у своего реалма)"
-$world = Start-Process -FilePath (Join-Path $ServerDir "worldserver.exe") -WorkingDirectory $ServerDir -PassThru
+$world = Start-Utf8Process "worldserver.exe"
+if (-not $world) { Write-Err "worldserver не запустился"; exit 3 }
 if (-not (Wait-Port 8085 240 "worldserver")) { exit 3 }
 Write-Ok "worldserver pid=$($world.Id) слушает 8085"
 

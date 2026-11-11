@@ -276,6 +276,33 @@ The base world dump overwrote the tables. The correct order is: schema → base 
 
 ## Tooling
 
+### Cyrillic in the server console shows as "╨╖╨░╨│╤Г╨╢╨╡╨╜"
+
+The server prints UTF-8 while the Windows console in a Russian locale runs cp866.
+Files on disk are fine — only the console rendering is broken.
+
+Fix it by switching the code page of the console that hosts the process:
+
+```
+chcp 65001
+worldserver.exe
+```
+
+`tools/server/start-server.ps1` already launches both servers through
+`cmd /c "chcp 65001 & …"`, so starting them with the script gives a correct console.
+
+To read logs without touching the server console, use the viewer:
+
+```powershell
+.\tools\server\watch-log.ps1                        # last 30 lines of Server.log
+.\tools\server\watch-log.ps1 -Name Errors.log
+.\tools\server\watch-log.ps1 -Filter "lua_scripts" -Lines 50
+.\tools\server\watch-log.ps1 -Follow                # stream new lines
+```
+
+It opens the file with `FileShare.ReadWrite`, so it works while the server is
+running, and decodes UTF-8 properly.
+
 ### Content audit: `tools/verify-content.py`
 
 Checks the custom id range (70000–70299 by default) and exits with code 1 when it
