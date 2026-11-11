@@ -6,14 +6,57 @@
 
 ---
 
+## 📚 Документация
+
+Полное руководство — в **[Wiki](https://github.com/maxorlov59rus/azeroth-echo/wiki)**:
+
+| Раздел | Для кого |
+|---|---|
+| [Установка клиента](https://github.com/maxorlov59rus/azeroth-echo/wiki/Установка-клиента) | игрока |
+| [Контент реалма](https://github.com/maxorlov59rus/azeroth-echo/wiki/Контент-реалма) | игрока и ГМ |
+| [Установка сервера](https://github.com/maxorlov59rus/azeroth-echo/wiki/Установка-сервера) | администратора |
+| [SQL-миграции](https://github.com/maxorlov59rus/azeroth-echo/wiki/SQL-миграции) | администратора |
+| [SOAP и администрирование](https://github.com/maxorlov59rus/azeroth-echo/wiki/SOAP-и-администрирование) | администратора |
+| [Сборка ядра](https://github.com/maxorlov59rus/azeroth-echo/wiki/Сборка-ядра) | разработчика |
+| [Клиентские патчи](https://github.com/maxorlov59rus/azeroth-echo/wiki/Клиентские-патчи) | разработчика |
+| [Модули](https://github.com/maxorlov59rus/azeroth-echo/wiki/Модули) | разработчика |
+| [Устранение неполадок](https://github.com/maxorlov59rus/azeroth-echo/wiki/Устранение-неполадок) | всех |
+
+Исходники страниц лежат в каталоге [`wiki/`](wiki/) — правки вносятся здесь, публикация скриптом [`tools/wiki-push.ps1`](tools/wiki-push.ps1).
+
+---
+
+## 🔗 Связанные репозитории
+
+| Репозиторий | Что внутри |
+|---|---|
+| **azeroth-echo** ← вы здесь | Контент: SQL, Lua, модули, аддон, патчи, инструменты |
+| [**azeroth-echo-core**](https://github.com/maxorlov59rus/azeroth-echo-core) | Форк ядра AzerothCore 3.3.5a с модулями проекта |
+| [**Релизы**](https://github.com/maxorlov59rus/azeroth-echo/releases) | Готовые клиентские патчи |
+
+Как они связаны — [Связь репозиториев](https://github.com/maxorlov59rus/azeroth-echo/wiki/Связь-репозиториев).
+
+### Быстрая установка клиента
+
+Скачать из [релиза v1.0.0](https://github.com/maxorlov59rus/azeroth-echo/releases/tag/v1.0.0):
+
+```
+patch-x.mpq   → WoW/Data/
+patch-Z.mpq   → WoW/Data/
+AzerothEcho.zip → распаковать в WoW/Interface/AddOns/
+удалить WoW/Cache/WDB/
+```
+
+---
+
 ## 🧰 Стек
 
 | Компонент | Версия / источник |
 |-----------|-------------------|
-| Ядро | [azerothcore/azerothcore-wotlk](https://github.com/azerothcore/azerothcore-wotlk.git) (master) — **внешний клон рядом с репозиторием**, не хранится в нём (см. [`modules/README.md`](modules/README.md)) |
+| Ядро | [maxorlov59rus/azeroth-echo-core](https://github.com/maxorlov59rus/azeroth-echo-core) — форк AzerothCore 3.3.5a с модулями проекта |
 | Клиент | WoW 3.3.5a (12340) |
 | Скриптовый движок | [mod-ale](https://github.com/azerothcore/mod-ale) (ALE — AzerothCore Lua Engine, форк Eluna) |
-| БД | MySQL (схемы `acore_world` и др.) |
+| БД | MySQL 8.0 (`echo_world`, `echo_characters`, `echo_auth`) |
 | Клиентские аддоны | [`addons/AzerothEcho`](addons/README.md) — панель кампаний, карта разломов |
 
 > **Принцип**: этот репозиторий содержит только контент реалма
