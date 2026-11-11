@@ -30,6 +30,10 @@ local REWARD_ITEM_TITLE = CAMPAIGN.rewards.title_token -- «Печать Хра�
 local REWARD_ITEM_MOUNT = CAMPAIGN.rewards.mount_token -- «Бездна-Пегас»
 local REWARD_MAIL_DELAY = 60
 
+-- В ALE нет Object:SetData для произвольных значений, поэтому время последнего
+-- срабатывания держим в Lua-таблице по GUID жертвы.
+local LAST_TRIGGER = {}
+
 -- Требование: «Клеймо Стражей Пустоты» (финал кампании 2) — из реестра
 local CAMPAIGN2_TOKEN = REG.campaigns[2].rewards.token
 
@@ -321,11 +325,11 @@ local function OnCreatureDamage(event, attacker, victim, amount)
     -- Простая защита: не спавнить чаще раза в 30 сек (cooldown через UpdateWorldState не доступен,
     -- поэтому используем хеш по времени)
     local now = os.time()
-    local lastTrigger = victim:GetData(0) or 0
+    local lastTrigger = LAST_TRIGGER[victim:GetGUIDLow()] or 0
     if now - lastTrigger < 30 then
         return
     end
-    victim:SetData(0, now)
+    LAST_TRIGGER[victim:GetGUIDLow()] = now
 
     -- Призыв Пустотников (слабая версия в фазах)
     for i = 1, PHASE_ADDS_PER_TRIGGER do

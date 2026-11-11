@@ -85,7 +85,7 @@ local function OnUpdateZone(event, player, newZone, newArea)
     local inSanct = SANCT_ZONE[newZone] or SANCT_AREA[newArea]
     local inFFA = FFA_ZONE[newZone] or FFA_AREA[newArea]
 
-    local wasFFA = player:IsFFA()
+    local wasFFA = player:IsFFAPvP()
     local wasSanct = false
     -- GetSanctuary нет в API ALE: убежище отслеживаем по флагу FFA
     -- (в ядре sanctuary сильнее FFA, обратное не так) — поэтому только

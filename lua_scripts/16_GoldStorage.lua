@@ -168,7 +168,10 @@ local function ShowMenu(event, player, creature)
     local loc = GetLocale(player)
     local accountId = player:GetAccountId()
 
-    player:GossipSetText(string.format(loc.balance, CommaValue(GetBalance(accountId))))
+    -- В ALE нет GossipSetText: текст меню берётся из npc_text по id,
+    -- который передаётся в GossipSendMenu ниже (см. player:GossipSendMenu(1, creature)).
+    -- Баланс показываем отдельным сообщением, чтобы игрок его видел.
+    player:SendBroadcastMessage(string.format(loc.balance, CommaValue(GetBalance(accountId))))
 
     -- Ввод суммы: поле code у GossipMenuAddItem (как в оригинале)
     player:GossipMenuAddItem(7, loc.store, 0, 1, true)

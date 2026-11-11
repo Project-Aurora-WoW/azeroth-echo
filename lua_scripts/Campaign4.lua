@@ -29,6 +29,10 @@ local CAMPAIGN3_TOKEN = REG.campaigns[3].rewards.title_token
 
 local MIN_LEVEL = REG.meta.min_level
 
+-- В ALE нет Object:SetData для произвольных значений, поэтому время последнего
+-- срабатывания держим в Lua-таблице по GUID жертвы.
+local LAST_TRIGGER = {}
+
 -- НПС (entry из реестра)
 local NPC_SENTINEL = CAMPAIGN.npc.sentinel   -- Хранительница Аэрис (гл. 1)
 local NPC_PHANTOM  = CAMPAIGN.npc.phantom    -- Осколочный Фантом (гл. 2)
@@ -289,11 +293,11 @@ local function OnBossDamage(event, attacker, victim, amount)
 
     -- Защита от повторных триггеров (не чаще раза в 30 сек)
     local now = os.time()
-    local lastTrigger = victim:GetData(0) or 0
+    local lastTrigger = LAST_TRIGGER[victim:GetGUIDLow()] or 0
     if now - lastTrigger < 30 then
         return
     end
-    victim:SetData(0, now)
+    LAST_TRIGGER[victim:GetGUIDLow()] = now
 
     for i = 1, PHASE_ADDS_PER_TRIGGER do
         local x = victim:GetX() + math.cos(math.pi * i / PHASE_ADDS_PER_TRIGGER) * 8

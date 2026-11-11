@@ -70,8 +70,18 @@ local function GiveReward(player, reward)
             tokensGiven = player:AddItem(TOKEN_ITEM, reward.tokens)
         end
         if not tokensGiven then
-            -- Сумки полны — письмо (fallback Artamedes-версии)
-            player:SendItemRetrievalMail({ { TOKEN_ITEM, reward.tokens } })
+            -- Сумки полны — отправляем жетоны письмом.
+            -- В ALE нет player:SendItemRetrievalMail; есть глобальный SendMail:
+            -- SendMail(subject, text, receiverGuidLow, senderGuidLow, stationery,
+            --          delay, money, cod, itemEntry, amount, ...)
+            local sent = SendMail(
+                "Награда за наигранное время",
+                "Жетоны Эха за проведённое в мире время.",
+                player:GetGUIDLow(), 0, 41, 0, 0, 0,
+                TOKEN_ITEM, reward.tokens)
+            if not sent or sent == 0 then
+                player:SendBroadcastMessage("Сумки полны, а письмо отправить не удалось — обратитесь к ГМ.")
+            end
         end
     end
 
