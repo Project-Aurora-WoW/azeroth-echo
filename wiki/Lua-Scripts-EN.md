@@ -130,3 +130,45 @@ If the command is missing, `mod-ale` is not compiled or failed to load.
 | `attempt to index a nil value` | reference to a non-existent NPC or item — check the DB entry |
 | Cyrillic in chat breaks | file not in UTF-8 without BOM |
 | A script cannot see another | load order: dependencies (`Dep_*`) must load first |
+
+## Load order
+
+ALE does not load files "as they lie on disk" — the order is deterministic and follows two rules (`modules/mod-ale/src/LuaEngine/LuaEngine.cpp`):
+
+1. **All `.ext` files run first**, then everything else (`.lua`, `.moon`, `.dll`, `.so`, `.out`) — lines 689–692.
+2. Inside each group the sort is by the **full path string** — `ScriptPathComparator`, line 667.
+
+Consequences:
+
+- numeric prefixes work, and they are the only reliable way to control order;
+- lowercase ASCII sorts after uppercase, so `queue.lua` ends up last while `Store_DataStruct.lua` comes before it;
+- subdirectories (`Dep_*`, `extensions/`) are sorted together with everything else: `Dep_crc32lua/…` lands between `CampaignManager.lua` and `Dep_LuaSrcDiet/…`;
+- files with the **same base name** in different folders are not loaded twice — the second one is skipped (line 704).
+
+### Project layout
+
+| Prefix | File | Layer |
+|---|---|---|
+| — | `00_CampaignRegistry.ext` | registry; always first thanks to the `.ext` rule |
+| 01 | `01_WelcomeSystem.lua` | login greeting, needs the registry only |
+| 02 | `02_AddonBridge.lua` | `AE_SendProgress` for the manager |
+| 03 | `03_CampaignManager.lua` | `AzerothEchoManager`, `.ae` / `.aecampaign` commands |
+| 05–22 | realm systems | auras, events, chat, treasury, PvP, etc. |
+| 30 | `30_PvpShop.lua` | token shop |
+| 41–44 | `4x_CampaignN.lua` | campaigns — after the manager |
+| 45 | `45_LoreArchive.lua` | lore archive |
+| 46 | `46_PortalGuardian.lua` | Portal Guardian |
+| 47 | `47_Store_Server.lua` | AIO store |
+| no number | `AIO.lua`, `Store_DataStruct.lua`, `queue.lua`, `Store_Client.lua`, `Dep_*`, `extensions/` | libraries |
+
+`AIO.lua`, `Store_DataStruct.lua` and `queue.lua` must **not** be renamed: they are pulled in via `require("AIO")`, `require("Store_DataStruct")`, `require("queue")`, and `require` resolves by file name.
+
+### Checking the real order
+
+Raise the logger level in `configs/worldserver.conf` and restart:
+
+```ini
+Logger.ALE=5,Console Server ALELog
+```
+
+`logs/Server.log` will contain `AddScriptPath add path …` lines in directory-walk order; execution follows the sorted list, so compare by file names.
