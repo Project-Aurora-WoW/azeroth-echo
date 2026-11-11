@@ -78,7 +78,7 @@ local L = {
 }
 
 local function OnUpdateZone(event, player, newZone, newArea)
-    local isRu = player:GetSession():GetSessionDbcLocale() == 8
+    local isRu = player:GetDbcLocale() == 8   -- 8 = ruRU; GetSession в ALE нет
     local t = isRu and L.ru or L.en
 
     -- Приоритет: убежище перекрывает FFA (как в Gurubashi-логике ядра)

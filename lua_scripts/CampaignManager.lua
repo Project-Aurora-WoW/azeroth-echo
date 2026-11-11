@@ -225,7 +225,7 @@ end
 --- Карта разломов: серверный аналог /ae rifts — шлёт команду аддону
 --- и дублирует список в чат.
 local function CmdRifts(player)
-    SendAddonMessage("AECHORIFTS", "show", "WHISPER", player)
+    player:SendAddonMessage("AECHORIFTS", "show", 7, player)
     player:SendBroadcastMessage(TAG .. VOID_COLOR .. " Разломы Пустоты:|r")
     player:SendBroadcastMessage(TAG .. " 1. Драконий Погост — эпицентр (осколок Трона) [***]")
     player:SendBroadcastMessage(TAG .. " 2. Зул'Драк — Храм Шёпота (алтари Культа) [**]")
@@ -234,7 +234,7 @@ end
 
 --- PvP: отправить вкладку и статистику (аналог /ae pvp и .aepvp me).
 local function CmdPvp(player)
-    SendAddonMessage("AECHOUI", "tab:3", "WHISPER", player)
+    player:SendAddonMessage("AECHOUI", "tab:3", 7, player)
     if AE_SendProgress then
         AE_SendProgress(player)
     end
@@ -244,7 +244,7 @@ end
 
 --- Ивенты: вкладка ивентов в аддоне + статус в чат (аналог /ae events).
 local function CmdEvents(player)
-    SendAddonMessage("AECHOUI", "tab:2", "WHISPER", player)
+    player:SendAddonMessage("AECHOUI", "tab:2", 7, player)
     if AE_SendProgress then
         AE_SendProgress(player)
     end

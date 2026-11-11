@@ -48,7 +48,7 @@ local CONFIG = {
 }
 
 local function S(player, key)
-	local loc = player:GetSession():GetSessionDbcLocale()
+	local loc = player:GetDbcLocale()
 	return (loc == 8) and CONFIG.strings.ru[key] or CONFIG.strings.en[key]
 end
 

@@ -56,7 +56,7 @@ local function LoadRewards()
 end
 
 local function GiveReward(player, reward)
-    local isRu = player:GetSession():GetSessionDbcLocale() == 8
+    local isRu = player:GetDbcLocale() == 8
     local guid = player:GetGUIDLow()
 
     -- Жетоны Эха: через менеджер кампаний (журнал), если доступен

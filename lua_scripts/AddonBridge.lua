@@ -90,16 +90,17 @@ end
 -- и при входе в мир.
 function AE_SendProgress(player)
     local payload = BuildProgressPayload(player)
-    -- AddonWhisperMessage: (prefix, msg, type, player) в ALE
-    SendAddonMessage(ADDON_PREFIX, payload, "WHISPER", player)
+    -- В ALE это метод игрока: player:SendAddonMessage(prefix, msg, тип, получатель),
+    -- тип — число ChatMessageType (7 = CHAT_MSG_WHISPER), глобальной функции нет.
+    player:SendAddonMessage(ADDON_PREFIX, payload, 7, player)
     -- Статус ивентов + личная валюта отдельным префиксом
     local events = BuildEventsPayload()
     if events ~= "" then
-        SendAddonMessage("AECHOEV", events .. ";" .. BuildTokensPayload(player), "WHISPER", player)
+        player:SendAddonMessage("AECHOEV", events .. ";" .. BuildTokensPayload(player), 7, player)
     end
     -- PvP-статистика отдельным префиксом (таблица может отсутствовать
     -- до первого PvP-килла — шлём нули, аддон отобразит корректно)
-    SendAddonMessage("AECHOPVP", BuildPvpPayload(player), "WHISPER", player)
+    player:SendAddonMessage("AECHOPVP", BuildPvpPayload(player), 7, player)
 end
 
 --- Обработка аддон-сообщений клиент -> сервер ("hello").

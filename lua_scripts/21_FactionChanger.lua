@@ -44,7 +44,7 @@ local L = {
 }
 
 local function L10n(player)
-    return (player:GetSession():GetSessionDbcLocale() == 8) and L.ru or L.en
+    return (player:GetDbcLocale() == 8) and L.ru or L.en
 end
 
 local function OnGossipHello(event, player, creature)

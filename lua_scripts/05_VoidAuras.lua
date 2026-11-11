@@ -176,6 +176,6 @@ local function OnUpdateZone(event, player, newZone, newArea)
     end
 end
 
-RegisterPlayerEvent(42, OnUpdateZone)   -- PLAYER_EVENT_ON_UPDATE_ZONE = 42
+RegisterPlayerEvent(27, OnUpdateZone)   -- PLAYER_EVENT_ON_UPDATE_ZONE = 27 (42 — это ON_COMMAND)
 
 print("[EchoOfTheVoid] 05_VoidAuras.lua загружен (ауры Пустоты, ru/en).")
