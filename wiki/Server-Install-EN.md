@@ -184,6 +184,27 @@ Stop: `worldserver` first, then `authserver`. Start the other way around —
 If `worldserver` starts without `authserver` it will come up, but clients cannot
 authenticate.
 
+The order is not cosmetic: `authserver` sets `REALM_FLAG_OFFLINE` for every realm at
+startup, and `worldserver` clears the bit only for its own realm. Start the world
+server first and the realm stays offline in the realm list.
+
+Both actions are scripted:
+
+```powershell
+# start: auth -> pause -> world, then report ports and the realm flag
+.\tools\server\start-server.ps1
+
+# restart, stopping whatever is already running
+.\tools\server\start-server.ps1 -Restart
+
+# stop: world via SOAP (up to 60 s graceful), then auth
+.\tools\server\stop-server.ps1
+```
+
+The scripts read `LoginDatabaseInfo` from `configs\worldserver.conf` and print the
+`realmlist` table with an `offline_bit` column — a `2` there means the start order
+was wrong.
+
 ## Next
 
 - [SOAP and administration](SOAP-Admin-EN)
