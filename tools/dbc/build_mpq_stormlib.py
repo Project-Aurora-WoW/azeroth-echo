@@ -59,16 +59,16 @@ def main():
 
     if mode == "patch-x":
         for path in args:
-            entries.append((path, "DBFilesClient\\" + os.path.basename(path)))
+            entries.append((path, "DBFilesClient/" + os.path.basename(path)))
     elif mode == "patch-z":
         base = args[0]
         entries.append((os.path.join(base, "DBFilesClient", "Map.dbc"),
-                        "DBFilesClient\\Map.dbc"))
+                        "DBFilesClient/Map.dbc"))
         maps_dir = os.path.join(base, "World", "Maps", "CustomMaps")
         for name in sorted(os.listdir(maps_dir)):
             if name.lower().endswith((".wdt", ".adt")):
                 entries.append((os.path.join(maps_dir, name),
-                                "World\\Maps\\CustomMaps\\" + name))
+                                "World/Maps/CustomMaps/" + name))
     elif mode == "files":
         for pair in args:
             disk_path, archived = pair.split("=", 1)

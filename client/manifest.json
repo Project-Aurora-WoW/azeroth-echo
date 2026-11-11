@@ -1,25 +1,25 @@
 ﻿{
   "realm": "Эхо Пустоты",
-  "version": 6,
+  "version": 7,
   "realmlist": "127.0.0.1",
   "files": [
     {
       "path": "patch-x.mpq",
       "destination": "Data/patch-x.mpq",
-      "sha256": "5c596666b46b44ddaef4eab6584386d853f7cdc96a7e024623fb3c054d824183",
-      "size": 4120749,
+      "sha256": "f29d958e1baab03f10603cfede6ff270350fed7d6a29e6efca4e9eb3d812f551",
+      "size": 4553126,
       "required": true,
-      "description": "DBC-патч: титул «Хранитель Эха» (ID 178), маунт «Бездна-Пегас» (спелл 70010 — аура MOUNTED на существе 29767, название и описание на RU/EN). База — Patch-T. Map.dbc НЕ включён: его полностью перекрывает patch-Z",
-      "url": "https://github.com/Project-Aurora-WoW/azeroth-echo/releases/download/v1.0.1/patch-x.mpq"
+      "description": "DBC-патч: титул «Хранитель Эха» (ID 178), маунт «Бездна-Пегас» (спелл 70010 — аура MOUNTED на существе 29767). Собран нативным StormLib CLI, имена файлов с обратными слэшами. Map.dbc сюда НЕ входит — его перекрывает patch-Z",
+      "url": "https://github.com/Project-Aurora-WoW/azeroth-echo/releases/download/v1.0.2/patch-x.mpq"
     },
     {
       "path": "patch-Z.mpq",
       "destination": "Data/patch-Z.mpq",
-      "sha256": "26310a6bb35c3cc5404f3b000bdeeb7cfe7778f722714083de545045d3dcd998",
-      "size": 2676286,
+      "sha256": "f557ca3128a72b35d24496b9eda44ca9f7b7b26847989d6f2336c25ff81978ec",
+      "size": 2677677,
       "required": true,
-      "description": "Карта 5000 «CustomMaps»: Остров Морза, Долина Предательства. Пересобран из распакованных .adt/.wdt/Map.dbc, так как оригинальный patch-Z.MPQ повреждён",
-      "url": "https://github.com/Project-Aurora-WoW/azeroth-echo/releases/download/v1.0.1/patch-Z.mpq"
+      "description": "Карта 5000 «CustomMaps»: Остров Морза, Долина Предательства. Map.dbc (136 записей) + WDT + 10 ADT, собрано нативным StormLib CLI",
+      "url": "https://github.com/Project-Aurora-WoW/azeroth-echo/releases/download/v1.0.2/patch-Z.mpq"
     },
     {
       "path": "addons/AzerothEcho.zip",
@@ -28,13 +28,13 @@
       "size": 9217,
       "required": true,
       "description": "Клиентский аддон реалма (addons/AzerothEcho из репозитория, zip без вложенного каталога)",
-      "url": "https://github.com/Project-Aurora-WoW/azeroth-echo/releases/download/v1.0.1/AzerothEcho.zip"
+      "url": "https://github.com/Project-Aurora-WoW/azeroth-echo/releases/download/v1.0.2/AzerothEcho.zip"
     }
   ],
   "cacheDirs": [
     "Cache",
     "Cache/WDB"
   ],
-  "notes": "После сборки патчей заполнить sha256 (PowerShell: Get-FileHash -Algorithm SHA256 <файл>) и size (байты). Версию поднимать при каждом изменении состава файлов. Порядок загрузки MPQ по имени: patch-3 → ... → patch-x → patch-Z (Z последняя — её Map.dbc перекрывает всё).",
-  "release": "v1.0.1"
+  "notes": "После сборки патчей заполнить sha256 (PowerShell: Get-FileHash -Algorithm SHA256 <файл>) и size (байты). Версию поднимать при каждом изменении состава файлов. Порядок загрузки MPQ по имени: patch-3 → ... → patch-x → patch-Z (Z последняя — её Map.dbc перекрывает всё). Собирать патчи только через tools/mpq/mpqcli.exe: архив должен содержать имена с обратными слэшами (DBFilesClient\\Spell.dbc), иначе libmpq их не читает.",
+  "release": "v1.0.2"
 }

@@ -124,6 +124,18 @@ def main():
     sl = StormLib()
     print("StormLib:", sl.path)
 
+    if cmd == "list":
+        archive = sl.open(path)
+        if not archive:
+            print("НЕ ОТКРЫВАЕТСЯ: %s" % path)
+            return 1
+        items = list_files(sl, archive)
+        print("файлов в архиве: %d" % len(items))
+        for nm, fsize, csize, flags in items:
+            print("  %-52s fsize=%-10d csize=%-10d flags=0x%08X" % (nm, fsize, csize, flags))
+        sl.close(archive)
+        return 0
+
     if cmd in ("check", "info"):
         archive = sl.open(path)
         if not archive:
@@ -148,3 +160,43 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+class SFILE_FIND_DATA(ctypes.Structure):
+    _fields_ = [
+        ("cFileName", ctypes.c_wchar * 1024),
+        ("szPlainName", ctypes.c_wchar * 1024),
+        ("dwHashIndex", ctypes.c_uint32),
+        ("dwBlockIndex", ctypes.c_uint32),
+        ("dwFileSize", ctypes.c_uint32),
+        ("dwFileFlags", ctypes.c_uint32),
+        ("dwCompSize", ctypes.c_uint32),
+        ("dwFileTimeLo", ctypes.c_uint32),
+        ("dwFileTimeHi", ctypes.c_uint32),
+        ("lcLocale", ctypes.c_uint32),
+    ]
+
+
+def list_files(sl, archive):
+    """Перечисляет реально записанные имена через SFileFindFirstFile."""
+    sl.lib.SFileFindFirstFile.argtypes = [ctypes.c_void_p, ctypes.c_wchar_p,
+                                          ctypes.POINTER(SFILE_FIND_DATA),
+                                          ctypes.c_wchar_p]
+    sl.lib.SFileFindFirstFile.restype = ctypes.c_void_p
+    sl.lib.SFileFindNextFile.argtypes = [ctypes.c_void_p, ctypes.POINTER(SFILE_FIND_DATA)]
+    sl.lib.SFileFindNextFile.restype = ctypes.c_int
+    sl.lib.SFileFindClose.argtypes = [ctypes.c_void_p]
+    sl.lib.SFileFindClose.restype = ctypes.c_int
+
+    data = SFILE_FIND_DATA()
+    handle = sl.lib.SFileFindFirstFile(archive, "*", ctypes.byref(data), None)
+    if not handle:
+        return []
+    names = []
+    try:
+        while True:
+            names.append((data.cFileName, data.dwFileSize, data.dwCompSize, data.dwFileFlags))
+            if not sl.lib.SFileFindNextFile(handle, ctypes.byref(data)):
+                break
+    finally:
+        sl.lib.SFileFindClose(handle)
+    return names
