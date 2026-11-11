@@ -1,0 +1,48 @@
+# Сборка и артефакты
+build/
+cmake-build-*/
+*.o
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.dll
+*.exe
+
+# Клиентские патчи (собираются локально из DBC)
+*.mpq
+*.MPQ
+*.zip
+
+# Распакованные карты и клиентские данные
+data/
+patch-*/
+custom maps/
+
+# Логи и крэш-дампы
+*.log
+Crashes/
+*.dmp
+
+# Резервные копии
+*.bak
+*.orig
+*.rej
+
+# Локальные конфиги (содержат учётные данные)
+configs/*.conf
+!configs/*.conf.dist
+
+# Временное
+__pycache__/
+*.pyc
+.vs/
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+
+# Кэш клиента
+Cache/
+WDB/
