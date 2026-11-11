@@ -1,24 +1,28 @@
-### Навигация
+### Navigation
 
-**Начало**
-- [Главная](Home)
-- [Связь репозиториев](Связь-репозиториев)
+**Start**
+- [Главная](Home) · [Home (EN)](Home-EN)
+- [Связь репозиториев](Связь-репозиториев) · [Repositories (EN)](Repositories-EN)
 
-**Для игрока**
-- [Установка клиента](Установка-клиента)
-- [Контент реалма](Контент-реалма)
-- [Карта 5000](Карта-5000)
+**Для игрока / For players**
+- [Установка клиента](Установка-клиента) · [Client install (EN)](Client-Install-EN)
+- [Контент реалма](Контент-реалма) · [Realm content (EN)](Realm-Content-EN)
+- [Карта 5000](Карта-5000) · [Custom map 5000 (EN)](Custom-Map-5000-EN)
 
-**Для администратора**
-- [Установка сервера](Установка-сервера)
-- [SQL-миграции](SQL-миграции)
-- [SOAP и администрирование](SOAP-и-администрирование)
-- [Устранение неполадок](Устранение-неполадок)
+**Для администратора / For admins**
+- [Установка сервера](Установка-сервера) · [Server install (EN)](Server-Install-EN)
+- [SQL-миграции](SQL-миграции) · [SQL migrations (EN)](SQL-Migrations-EN)
+- [SOAP и администрирование](SOAP-и-администрирование) · [SOAP & admin (EN)](SOAP-Admin-EN)
+- [Устранение неполадок](Устранение-неполадок) · [Troubleshooting (EN)](Troubleshooting-EN)
 
-**Для разработчика**
-- [Сборка ядра](Сборка-ядра)
-- [Клиентские патчи](Клиентские-патчи)
-- [Модули](Модули)
-- [Lua-скрипты](Lua-скрипты)
-- [Аддон AzerothEcho](Аддон-AzerothEcho)
-- [Разработка](Разработка)
+**Для разработчика / For developers**
+- [Сборка ядра](Сборка-ядра) · [Core build (EN)](Core-Build-EN)
+- [Клиентские патчи](Клиентские-патчи) · [Client patches (EN)](Client-Patches-EN)
+- [Модули](Модули) · [Modules (EN)](Modules-EN)
+- [Lua-скрипты](Lua-скрипты) · [Lua scripts (EN)](Lua-Scripts-EN)
+- [Аддон AzerothEcho](Аддон-AzerothEcho) · [Addon (EN)](Addon-AzerothEcho-EN)
+- [Разработка](Разработка) · [Development (EN)](Development-EN)
+
+---
+
+**[Релизы / Releases](https://github.com/Project-Aurora-WoW/azeroth-echo/releases)** · **[Ядро / Core](https://github.com/Project-Aurora-WoW/azeroth-echo-core)**

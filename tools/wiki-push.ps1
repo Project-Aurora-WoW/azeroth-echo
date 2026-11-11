@@ -12,15 +12,15 @@
     Скрипт копирует страницы, коммитит и пушит в wiki.
 
 .PARAMETER Repo
-    Репозиторий в формате owner/name. По умолчанию maxorlov59rus/azeroth-echo.
+    Репозиторий в формате owner/name. По умолчанию Project-Aurora-WoW/azeroth-echo.
 
 .EXAMPLE
     .\wiki-push.ps1
-    .\wiki-push.ps1 -Repo maxorlov59rus/azeroth-echo-core
+    .\wiki-push.ps1 -Repo Project-Aurora-WoW/azeroth-echo-core
 #>
 [CmdletBinding()]
 param(
-    [string]$Repo = "maxorlov59rus/azeroth-echo"
+    [string]$Repo = "Project-Aurora-WoW/azeroth-echo"
 )
 
 $ErrorActionPreference = "Continue"

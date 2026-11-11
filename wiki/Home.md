@@ -22,12 +22,12 @@
 
 | Репозиторий | Что внутри | Ссылка |
 |---|---|---|
-| **azeroth-echo** | Контент: SQL-миграции, Lua-скрипты, модули, аддон, патчи клиента, инструменты | [github.com/maxorlov59rus/azeroth-echo](https://github.com/maxorlov59rus/azeroth-echo) |
-| **azeroth-echo-core** | Форк ядра AzerothCore 3.3.5a со встроенными модулями проекта | [github.com/maxorlov59rus/azeroth-echo-core](https://github.com/maxorlov59rus/azeroth-echo-core) |
+| **azeroth-echo** | Контент: SQL-миграции, Lua-скрипты, модули, аддон, патчи клиента, инструменты | [github.com/Project-Aurora-WoW/azeroth-echo](https://github.com/Project-Aurora-WoW/azeroth-echo) |
+| **azeroth-echo-core** | Форк ядра AzerothCore 3.3.5a со встроенными модулями проекта | [github.com/Project-Aurora-WoW/azeroth-echo-core](https://github.com/Project-Aurora-WoW/azeroth-echo-core) |
 
 Как они связаны — страница **[Связь репозиториев](Связь-репозиториев)**.
 
-**Релизы с готовыми патчами:** [v1.0.0](https://github.com/maxorlov59rus/azeroth-echo/releases/tag/v1.0.0)
+**Релизы с готовыми патчами:** [v1.0.0](https://github.com/Project-Aurora-WoW/azeroth-echo/releases/tag/v1.0.0)
 
 ---
 
@@ -67,7 +67,7 @@
 
 Мир расколот **Пустотой** — не силой, а состоянием: разломы оставляют после себя «эхо», повторяющее чужие мысли и поступки. Орден Рассвета пытается удержать порядок, Культ Усмешки Бездны считает эхо божественным гласом, а Странники — те, кто пришёл из другого мира — не принадлежат никому.
 
-Подробная лор-основа: [`docs/lore/universe.md`](https://github.com/maxorlov59rus/azeroth-echo/blob/main/docs/lore/universe.md).
+Подробная лор-основа: [`docs/lore/universe.md`](https://github.com/Project-Aurora-WoW/azeroth-echo/blob/main/docs/lore/universe.md).
 
 ---
 

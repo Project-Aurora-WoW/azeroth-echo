@@ -10,7 +10,7 @@
       "size": 4120622,
       "required": true,
       "description": "DBC-патч: титул «Хранитель Эха» (ID 178), маунт «Бездна-Пегас» (спелл 70010). База — Patch-T. Map.dbc НЕ включён: его полностью перекрывает patch-Z",
-      "url": "https://github.com/maxorlov59rus/azeroth-echo/releases/download/v1.0.0/patch-x.mpq"
+      "url": "https://github.com/Project-Aurora-WoW/azeroth-echo/releases/download/v1.0.0/patch-x.mpq"
     },
     {
       "path": "patch-Z.mpq",
@@ -19,7 +19,7 @@
       "size": 2676286,
       "required": true,
       "description": "Карта 5000 «CustomMaps»: Остров Морза, Долина Предательства. Пересобран из распакованных .adt/.wdt/Map.dbc, так как оригинальный patch-Z.MPQ повреждён",
-      "url": "https://github.com/maxorlov59rus/azeroth-echo/releases/download/v1.0.0/patch-Z.mpq"
+      "url": "https://github.com/Project-Aurora-WoW/azeroth-echo/releases/download/v1.0.0/patch-Z.mpq"
     },
     {
       "path": "addons/AzerothEcho.zip",
@@ -28,7 +28,7 @@
       "size": 9217,
       "required": true,
       "description": "Клиентский аддон реалма (addons/AzerothEcho из репозитория, zip без вложенного каталога)",
-      "url": "https://github.com/maxorlov59rus/azeroth-echo/releases/download/v1.0.0/AzerothEcho.zip"
+      "url": "https://github.com/Project-Aurora-WoW/azeroth-echo/releases/download/v1.0.0/AzerothEcho.zip"
     }
   ],
   "cacheDirs": [
