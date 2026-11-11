@@ -127,3 +127,16 @@ end
 RegisterPlayerEvent(18, OnFixGearChat)
 
 print("[EchoOfTheVoid] 11_FixGear.lua загружен (починка экипировки, " .. FG.command .. ").")
+
+-- ============================================================
+-- Мост команд. В ALE чат-сообщения и команды идут разными событиями:
+-- PLAYER_EVENT_ON_CHAT (18) не срабатывает на «.команду», её отдаёт
+-- PLAYER_EVENT_ON_COMMAND (42), причём строка приходит БЕЗ ведущей точки.
+-- Пересобираем «.команда» и отдаём в тот же разбор, что и раньше.
+-- Возврат false гасит ответ ядра «command does not exist».
+-- ============================================================
+local function BridgeOnCommand(event, player, command, chatHandler)
+    if not player or not command then return end
+    return OnFixGearChat(event, player, "." .. command, 0, 0)
+end
+RegisterPlayerEvent(42, BridgeOnCommand)

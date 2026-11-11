@@ -194,3 +194,15 @@ end
 RegisterPlayerEvent(18, OnPvpChat) -- PLAYER_EVENT_ON_CHAT
 
 print("[EchoOfTheVoid] 20_PvpSystem.lua загружен (статистика, killstreak, PvP-зона, .aepvp).")
+-- ============================================================
+-- Мост команд. В ALE чат-сообщения и команды идут разными событиями:
+-- PLAYER_EVENT_ON_CHAT (18) не срабатывает на «.команду», её отдаёт
+-- PLAYER_EVENT_ON_COMMAND (42), причём строка приходит БЕЗ ведущей точки.
+-- Пересобираем «.команда» и отдаём в тот же разбор, что и раньше.
+-- Возврат false гасит ответ ядра «command does not exist».
+-- ============================================================
+local function BridgeOnCommand(event, player, command, chatHandler)
+    if not player or not command then return end
+    return OnPvpChat(event, player, "." .. command, 0, 0)
+end
+RegisterPlayerEvent(42, BridgeOnCommand)
