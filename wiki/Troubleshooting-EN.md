@@ -276,6 +276,29 @@ The base world dump overwrote the tables. The correct order is: schema → base 
 
 ## Tooling
 
+### Content audit: `tools/verify-content.py`
+
+Checks the custom id range (70000–70299 by default) and exits with code 1 when it
+finds problems, so it can run before a release or in CI.
+
+```powershell
+python tools/verify-content.py --data-dir E:/acbuild/bin/RelWithDebInfo/data
+```
+
+What it checks:
+
+| Check | What the warning means |
+|---|---|
+| NPCs without spawn | template exists, no row in `creature` — players will never see it |
+| NPC models | `CreatureDisplayID` missing from the client `CreatureDisplayInfo.dbc` |
+| Items | `displayid = 0`, `Material < 0`, empty name, model missing from `ItemDisplayInfo.dbc` |
+| Mounts | spell without `SPELL_AURA_MOUNTED` (78), without a creature, without category 330 |
+| Map 5000 | no spawns, graveyards, areatriggers or `game_tele` points |
+| Titles | what actually sits in `chartitles_dbc` |
+
+NPCs 70190 "Void Rift" and 70191 "Withered from the Rift" show up as spawnless on
+purpose: `17_TimeRift.lua` creates them dynamically.
+
 ### Ladik's MPQ Editor does nothing
 
 No CLI support: `script`, `/console`, stdin — all exit with code 0 and no effect.
