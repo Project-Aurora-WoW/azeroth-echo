@@ -371,4 +371,4 @@ function SHOP_UI.UnusedHandler(player, data)
 	return false
 end
 
-print("[EchoOfTheVoid] Store_Server.lua загружен (AIO-магазин, валюты: золото + Жетон Эха).")
+print("[EchoOfTheVoid] 47_Store_Server.lua загружен (AIO-магазин, валюты: золото + Жетон Эха).")

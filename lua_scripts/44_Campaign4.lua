@@ -325,4 +325,4 @@ RegisterCreatureGossipEvent(NPC_SENTINEL, 2, OnSentinelSelect)
 RegisterCreatureGossipEvent(NPC_SHARD, 1, ShowShardMenu)
 RegisterCreatureGossipEvent(NPC_SHARD, 2, OnShardSelect)
 
-print("[EchoOfTheVoid] Campaign4.lua загружен (кампания 4 «Второе Эхо», главы 1–5, босс 70520).")
+print("[EchoOfTheVoid] 44_Campaign4.lua загружен (кампания 4 «Второе Эхо», главы 1–5, босс 70520).")

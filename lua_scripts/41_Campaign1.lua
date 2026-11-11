@@ -241,4 +241,4 @@ RegisterCreatureGossipEvent(NPC_CAPTURED_MAGE, 2, OnCapturedMageSelect)
 RegisterPlayerEvent(7, OnCreatureKill)        -- PLAYER_EVENT_ON_CREATURE_KILL = 7
 RegisterPlayerEvent(27, OnPlayerUpdateZone)   -- PLAYER_EVENT_ON_UPDATE_ZONE = 27 (42 — это ON_COMMAND)
 
-print("[EchoOfTheVoid] Campaign1.lua загружен (НПС 70100/70110/70120).")
+print("[EchoOfTheVoid] 41_Campaign1.lua загружен (НПС 70100/70110/70120).")

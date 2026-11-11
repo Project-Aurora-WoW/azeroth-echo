@@ -60,4 +60,4 @@ end
 
 RegisterPlayerEvent(3, OnPlayerLogin) -- PLAYER_EVENT_ON_LOGIN = 3
 
-print("[EchoOfTheVoid] WelcomeSystem.lua загружен.")
+print("[EchoOfTheVoid] 01_WelcomeSystem.lua загружен.")

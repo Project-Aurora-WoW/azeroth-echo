@@ -143,4 +143,4 @@ end
 RegisterCreatureGossipEvent(GUARDIAN_ENTRY, 1, OnGossipHello)    -- GOSSIP_EVENT_ON_HELLO = 1
 RegisterCreatureGossipEvent(GUARDIAN_ENTRY, 2, OnGossipSelect)   -- GOSSIP_EVENT_ON_SELECT = 2
 
-print("[EchoOfTheVoid] PortalGuardian.lua загружен (НПС " .. GUARDIAN_ENTRY .. ").")
+print("[EchoOfTheVoid] 46_PortalGuardian.lua загружен (НПС " .. GUARDIAN_ENTRY .. ").")

@@ -176,4 +176,4 @@ end
 RegisterCreatureGossipEvent(ARCHIVIST_ENTRY, 1, OnGossipHello)
 RegisterCreatureGossipEvent(ARCHIVIST_ENTRY, 2, OnGossipSelect)
 
-print("[EchoOfTheVoid] LoreArchive.lua загружен (НПС " .. ARCHIVIST_ENTRY .. ", архив лора: 6 разделов).")
+print("[EchoOfTheVoid] 45_LoreArchive.lua загружен (НПС " .. ARCHIVIST_ENTRY .. ", архив лора: 6 разделов).")

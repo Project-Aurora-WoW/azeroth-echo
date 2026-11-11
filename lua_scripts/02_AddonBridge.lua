@@ -115,4 +115,4 @@ end
 
 RegisterPlayerEvent(3, OnPlayerLogin)  -- PLAYER_EVENT_ON_LOGIN = 3
 
-print("[EchoOfTheVoid] AddonBridge.lua загружен (аддон AzerothEcho, AE_SendProgress экспортирован).")
+print("[EchoOfTheVoid] 02_AddonBridge.lua загружен (аддон AzerothEcho, AE_SendProgress экспортирован).")

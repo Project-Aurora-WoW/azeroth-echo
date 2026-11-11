@@ -360,4 +360,4 @@ RegisterCreatureGossipEvent(NPC_RITUAL_FIRE, 2, OnFireSelect)
 RegisterPlayerEvent(7, OnCreatureKill)      -- PLAYER_EVENT_ON_CREATURE_KILL = 7
 RegisterCreatureEvent(NPC_BOSS, 9, OnCreatureDamage) -- CREATURE_EVENT_ON_DAMAGE_TAKEN = 9
 
-print("[EchoOfTheVoid] Campaign3.lua загружен (кампания 3, главы 1–4, рейд-босс 70510).")
+print("[EchoOfTheVoid] 43_Campaign3.lua загружен (кампания 3, главы 1–4, рейд-босс 70510).")

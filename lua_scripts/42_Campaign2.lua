@@ -296,4 +296,4 @@ RegisterCreatureGossipEvent(NPC_DRAGON, 2, OnDragonSelect)
 
 RegisterPlayerEvent(7, OnCreatureKill) -- PLAYER_EVENT_ON_CREATURE_KILL = 7
 
-print("[EchoOfTheVoid] Campaign2.lua загружен (кампания 2, главы 1–5).")
+print("[EchoOfTheVoid] 42_Campaign2.lua загружен (кампания 2, главы 1–5).")

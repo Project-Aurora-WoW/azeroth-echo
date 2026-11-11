@@ -453,7 +453,7 @@ end
 
 RegisterPlayerEvent(18, OnPlayerChat) -- PLAYER_EVENT_ON_CHAT = 18
 
-print("[EchoOfTheVoid] CampaignManager.lua загружен (API кампаний, .ae*, .aecampaign*, журнал " ..
+print("[EchoOfTheVoid] 03_CampaignManager.lua загружен (API кампаний, .ae*, .aecampaign*, журнал " ..
     LOG_TABLE .. ").")
 
 -- ============================================================
