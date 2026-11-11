@@ -153,19 +153,19 @@ def build_mpq(out_path, files):
         btab.extend(struct.pack("<IIII", b["start"], b["csize"], b["fsize"], b["flags"]))
     btab = enc(bytes(btab), hstr("(block table)", 3))
 
-    # --- header (v3) ---
+    # --- header (v1) ---
+    # Порядок полей строго по спецификации MoPaQ:
+    #   magic, headerSize=32, archiveSize, formatVersion, sectorSizeShift,
+    #   hashTablePos, blockTablePos, hashTableSize, blockTableSize
+    # sectorSizeShift=12 -> сектор 4096 байт, ровно так режутся блоки выше.
     filesize = off_data + len(payload)
-    hdr = bytearray()
-    hdr.extend(struct.pack("<4sIIHHIIII", b"MPQ\x1A",
-                           off_data, filesize, 3, 3, 0x00000200,
-                           HASH_TABLE_SIZE, off_htab, off_btab))
-    assert len(hdr) == 32, len(hdr)
-    hdr.extend(struct.pack("<Q", 0x1189))  # ext header? -> mono? no
+    header = struct.pack("<4sIIHHIIII", b"MPQ\x1A",
+                         32, filesize, 1, 12,
+                         off_htab, off_btab, HASH_TABLE_SIZE, len(blocks))
+    assert len(header) == 32, len(header)
 
     out = bytearray()
-    out.extend(struct.pack("<4sIIHHIIII", b"MPQ\x1A",
-                           off_data, filesize, 3, 3, 0x00000200,
-                           HASH_TABLE_SIZE, off_htab, off_btab))
+    out.extend(header)
     out.extend(b"\x00"*(off_htab-32))
     out.extend(htab)
     out.extend(b"\x00"*(off_btab-len(out)))
@@ -178,11 +178,15 @@ def build_mpq(out_path, files):
 
 if __name__ == "__main__":
     base = r"C:\Users\Orel\AppData\Local\Temp\gigatool\patch-x-build"
-    src  = os.path.join(base, "client_dbc")
+    # каталог с готовыми DBC: client_dbc_pt собран на базе Patch-T (49 995
+    # записей), client_dbc — старая база ACDB, из неё патч не собирается
+    src = sys.argv[1] if len(sys.argv) > 1 else os.path.join(base, "client_dbc_pt")
+    out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(base, "patch-x.mpq")
+    print("source dir:", src)
     files = []
     for fn in ("CharTitles.dbc", "Spell.dbc"):
         p = os.path.join(src, fn)
-        data = open(p,"rb").read()
+        data = open(p, "rb").read()
         files.append(("DBFilesClient\\" + fn, data))
         print("input:", fn, len(data), "bytes")
-    build_mpq(os.path.join(base, "patch-x.mpq"), files)
+    build_mpq(out, files)
